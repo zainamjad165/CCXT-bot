@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 ccxt = "*"
 schedule = "*"
+ta = "*"
+pandas = "*"
+numpy = "*"
 
 [dev-packages]
 

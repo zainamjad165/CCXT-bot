@@ -1,2 +1,5 @@
-ccxt
+ta
 schedule
+ccxt
+pandas
+numpy

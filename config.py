@@ -1,3 +1,3 @@
-BYBIT_API_KEY = "FJzA83167i0y9XJUR3"
+BYBIT_API_KEY = "Your bybit API key"
 
-BYBIT_SECRET_KEY = "j9jxbDZcZSmOINCLnxKsTc4QtiAyZWBJ7S7v"   
+BYBIT_SECRET_KEY = "Your bybit Secret Key"
