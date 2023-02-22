@@ -2,12 +2,11 @@ FROM python:3.10-slim
 
 ENV PYTHONUNBUFFERED 1
 
-EXPOSE 8000
-WORKDIR /
+WORKDIR /app
 
 
-COPY requirements.txt ./
+COPY requirements.txt .
 
 RUN pip install -r requirements.txt
-COPY . ./
-ENTRYPOINT ['python', 'bot.py']
+COPY . .
+ENTRYPOINT ["python", "bot.py"]
