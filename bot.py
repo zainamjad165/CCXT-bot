@@ -1,5 +1,4 @@
 import ccxt
-import ta
 import schedule
 import os
 import pandas as pd
