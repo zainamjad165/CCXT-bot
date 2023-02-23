@@ -91,7 +91,6 @@ def check_buy_sell_signals(df):
     global in_position
 
     print("checking for buy and sell signals")
-    print(df.tail(5))
     last_row_index = len(df.index) - 1
     previous_row_index = last_row_index - 1
 
