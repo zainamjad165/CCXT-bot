@@ -20,6 +20,7 @@ interval = int(os.environ.get('interval'))
 period = int(os.environ.get('period'))
 atr_multiplier = float(os.environ.get('atr_multiplier'))
 symbol = str(os.environ.get('symbol'))
+amount = float(os.environ.get('amount'))
 
 exchange = getattr(ccxt, exchange_id)({
     'apiKey': apiKey,
@@ -98,7 +99,7 @@ def check_buy_sell_signals(df):
     if not df['in_uptrend'][previous_row_index] and df['in_uptrend'][last_row_index]:
         print("changed to uptrend, buy")
         if not in_position:
-            order = exchange.create_market_buy_order(symbol, 0.001)
+            order = exchange.create_market_buy_order(symbol, amount)
             print(order)
             in_position = True
         else:
@@ -107,7 +108,7 @@ def check_buy_sell_signals(df):
     if df['in_uptrend'][previous_row_index] and not df['in_uptrend'][last_row_index]:
         if in_position:
             print("changed to downtrend, sell")
-            order = exchange.create_market_sell_order(symbol, 0.001)
+            order = exchange.create_market_sell_order(symbol, amount)
             print(order)
             in_position = False
         else:
