@@ -14,7 +14,6 @@ exchange_id = os.environ.get('exchange')
 defaultType = os.environ.get('defaultType')
 environment = os.environ.get('environment', 'development')
 apiKey = os.environ.get('apiKey')
-print(apiKey)
 secret = os.environ.get('secret')
 interval = int(os.environ.get('interval'))
 period = int(os.environ.get('period'))
@@ -92,7 +91,6 @@ def check_buy_sell_signals(df):
     global in_position
 
     print("checking for buy and sell signals")
-    print(df.tail(5))
     last_row_index = len(df.index) - 1
     previous_row_index = last_row_index - 1
 
