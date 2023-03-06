@@ -1,4 +1,3 @@
 schedule
 ccxt
 pandas
-numpy

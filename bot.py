@@ -21,11 +21,11 @@ atr_multiplier = float(os.environ.get('atr_multiplier'))
 symbol = str(os.environ.get('symbol'))
 amount = float(os.environ.get('amount'))
 
+
 exchange = getattr(ccxt, exchange_id)({
     'apiKey': apiKey,
     'secret': secret,
 })
-
 
 exchange.options['defaultType'] = defaultType
 
@@ -33,35 +33,24 @@ if environment != 'production':
     exchange.set_sandbox_mode(True)
 
 
-
 def tr(data):
     data['previous_close'] = data['close'].shift(1)
-
     data['high-low'] = abs(data['high'] - data['low'])
-
     data['high-pc'] = abs(data['high'] - data['previous_close'])
-    
     data['low-pc'] = abs(data['low'] - data['previous_close'])
-
     tr = data[['high-low', 'high-pc', 'low-pc']].max(axis=1)
-
     return tr
 
 def atr(data, period):
     data['tr'] = tr(data)
     atr = data['tr'].rolling(period).mean()
-
     return atr
 
 def supertrend(df, period=20, atr_multiplier=10):
     hl2 = (df['high'] + df['low']) / 2
-    
     df['atr'] = atr(df, period)
-
     df['upperband'] = hl2 + (atr_multiplier * df['atr'])
-
     df['lowerband'] = hl2 - (atr_multiplier * df['atr'])
-
     df['in_uptrend'] = True
 
     for current in range(1, len(df.index)):
@@ -89,7 +78,6 @@ in_position = False
 
 def check_buy_sell_signals(df):
     global in_position
-
     print("checking for buy and sell signals")
     print(df.tail(5))
     last_row_index = len(df.index) - 1
@@ -103,7 +91,7 @@ def check_buy_sell_signals(df):
             in_position = True
         else:
             print("already in position, nothing to do")
-    
+
     if df['in_uptrend'][previous_row_index] and not df['in_uptrend'][last_row_index]:
         if in_position:
             print("changed to downtrend, sell")
@@ -117,15 +105,10 @@ def check_buy_sell_signals(df):
 
 def run_bot():
     print(f"Fetching new bars for {datetime.now().isoformat()}")
-
     bars = exchange.fetch_ohlcv(symbol, timeframe='1m', limit=100)
-
     df = pd.DataFrame(bars[:-1], columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
-    
     df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
-
     supertrend_data = supertrend(df, period, atr_multiplier)
-    
     check_buy_sell_signals(supertrend_data)
 
 
