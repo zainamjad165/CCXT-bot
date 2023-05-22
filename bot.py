@@ -46,7 +46,7 @@ def atr(data, period):
     atr = data['tr'].rolling(period).mean()
     return atr
 
-def supertrend(df, period=20, atr_multiplier=10):
+def supertrend(df, period=3, atr_multiplier=7):
     hl2 = (df['high'] + df['low']) / 2
     df['atr'] = atr(df, period)
     df['upperband'] = hl2 + (atr_multiplier * df['atr'])
